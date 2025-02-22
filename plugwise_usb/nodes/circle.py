@@ -7,7 +7,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import replace
 from datetime import UTC, datetime
 from functools import wraps
-import logging
+import logging, asyncio
 from typing import Any, TypeVar, cast
 
 from ..api import (
@@ -474,7 +474,8 @@ class PlugwiseCircle(PlugwiseBaseNode):
             missing_addresses = sorted(missing_addresses, reverse=True)
             for address in missing_addresses:
                 await self.energy_log_update(address)
-
+                await asyncio.sleep(0.05) # Minimum delay to prevent 100% high CPU 
+                
         if self._cache_enabled:
             await self._energy_log_records_save_to_cache()
 
