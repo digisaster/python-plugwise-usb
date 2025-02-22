@@ -474,7 +474,7 @@ class PlugwiseCircle(PlugwiseBaseNode):
             missing_addresses = sorted(missing_addresses, reverse=True)
             for address in missing_addresses:
                 await self.energy_log_update(address)
-                await asyncio.sleep(0.05) # Minimum delay to prevent 100% high CPU 
+                await asyncio.sleep(0.2) # Minimum delay to prevent 100% high CPU 
                 
         if self._cache_enabled:
             await self._energy_log_records_save_to_cache()
