@@ -934,8 +934,8 @@ class PlugwiseCircle(PlugwiseBaseNode):
             relay_state,
             logaddress_pointer,
         )
-        
-    async def unload(self) -> None:
+
+async def unload(self) -> None:
     """Deactivate and unload node features."""
     self._loaded = False
     if (
@@ -950,6 +950,7 @@ class PlugwiseCircle(PlugwiseBaseNode):
     if self._cache_enabled:
         await self._energy_log_records_save_to_cache()
     await super().unload()
+
 
     @raise_not_loaded
     async def set_relay_init(self, state: bool) -> bool:
