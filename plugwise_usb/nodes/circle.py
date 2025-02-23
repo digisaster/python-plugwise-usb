@@ -934,19 +934,22 @@ class PlugwiseCircle(PlugwiseBaseNode):
             relay_state,
             logaddress_pointer,
         )
-
+        
     async def unload(self) -> None:
-        """Deactivate and unload node features."""
-        self._loaded = False
-        if (
-            self._retrieve_energy_logs_task is not None
-            and not self._retrieve_energy_logs_task.done()
-        ):
-            self._retrieve_energy_logs_task.cancel()
+    """Deactivate and unload node features."""
+    self._loaded = False
+    if (
+        self._retrieve_energy_logs_task is not None
+        and not self._retrieve_energy_logs_task.done()
+    ):
+        self._retrieve_energy_logs_task.cancel()
+        try:
             await self._retrieve_energy_logs_task
-        if self._cache_enabled:
-            await self._energy_log_records_save_to_cache()
-        await super().unload()
+        except asyncio.CancelledError:
+            _LOGGER.debug("Energy logs task cancelled during unload, continuing shutdown.")
+    if self._cache_enabled:
+        await self._energy_log_records_save_to_cache()
+    await super().unload()
 
     @raise_not_loaded
     async def set_relay_init(self, state: bool) -> bool:
