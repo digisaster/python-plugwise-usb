@@ -10,8 +10,8 @@ from functools import wraps
 import logging, asyncio
 from typing import Any, TypeVar, cast
 
-# Pas de drempel voor log aan naar 10 seconden 
-asyncio.get_event_loop().slow_callback_duration = 10.0
+# Pas de drempel voor log aan naar 5 seconden 
+asyncio.get_event_loop().slow_callback_duration = 5.0
 
 from ..api import (
     EnergyStatistics,
